@@ -1,5 +1,3 @@
-// +build ignore
-
 package main
 
 import (
@@ -28,12 +26,12 @@ func main() {
 	}
 
 	req, err := whois.NewRequest(query)
-	FatalIf(err)
+	fatalIF(err)
 
 	var res *whois.Response
 	if *test {
 		fns, err := whoistest.ResponseFiles()
-		FatalIf(err)
+		fatalIF(err)
 
 		// FIXME: UNIX-specific
 		sfx := "/" + query + ".mime"
@@ -42,19 +40,19 @@ func main() {
 		for _, fn := range fns {
 			if strings.HasSuffix(fn, sfx) {
 				res, err = whois.ReadMIMEFile(fn)
-				FatalIf(err)
+				fatalIF(err)
 				break
 			}
 		}
 	} else {
 		res, err = whois.DefaultClient.Fetch(req)
-		FatalIf(err)
+		fatalIF(err)
 	}
 
 	fmt.Println(res.String())
 }
 
-func FatalIf(err error) {
+func fatalIF(err error) {
 	if err == nil {
 		return
 	}
